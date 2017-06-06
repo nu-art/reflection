@@ -23,6 +23,7 @@ import com.nu.art.core.exceptions.runtime.BadImplementationException;
 import com.nu.art.core.exceptions.runtime.ClassInstantiationRuntimeException;
 import com.nu.art.core.exceptions.runtime.MUST_NeverHappenedException;
 import com.nu.art.core.exceptions.runtime.ThisShouldNotHappenedException;
+import com.nu.art.core.interfaces.Condition;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -37,6 +38,7 @@ public class ReflectiveTools {
 	 * Creates a new instance of the supplied class type, via the default constructor.
 	 *
 	 * @param itemType The instance type to instantiate.
+	 *
 	 * @return An instance of the supplied item type.
 	 */
 	public static <ItemType> ItemType newInstance(Class<ItemType> itemType) {
@@ -161,25 +163,36 @@ public class ReflectiveTools {
 		return toRet;
 	}
 
+	public static <EnumType extends Enum<?>> EnumType findMatchingEnumItem(Class<EnumType> type, Condition<EnumType> condition) {
+		EnumType[] values = getEnumValues(type);
+		for (EnumType value : values) {
+			if (!condition.checkCondition(value))
+				continue;
+
+			return value;
+		}
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	public static <EnumType extends Enum<?>> EnumType[] getEnumValues(Class<EnumType> type) {
 		Method enumGetValues;
 		try {
 			enumGetValues = type.getDeclaredMethod("values");
 		} catch (Exception e) {
-			throw new MUST_NeverHappenedException("MUST NEVER HAPPEND: no values method for Enum!", e);
+			throw new MUST_NeverHappenedException("MUST NEVER HAPPENED: no values method for Enum!", e);
 		}
-		boolean wasAcessable = enumGetValues.isAccessible();
-		if (!wasAcessable) {
+		boolean wasAccessible = enumGetValues.isAccessible();
+		if (!wasAccessible) {
 			enumGetValues.setAccessible(true);
 		}
 		EnumType[] enumValues;
 		try {
 			enumValues = (EnumType[]) enumGetValues.invoke(null);
 		} catch (Exception e) {
-			throw new MUST_NeverHappenedException("MUST NEVER HAPPEND: no values method invocation error!", e);
+			throw new MUST_NeverHappenedException("MUST NEVER HAPPENED: no values method invocation error!", e);
 		} finally {
-			if (!wasAcessable) {
+			if (!wasAccessible) {
 				enumGetValues.setAccessible(false);
 			}
 		}
@@ -312,8 +325,7 @@ public class ReflectiveTools {
 		if (type == Byte.class || type == byte.class) {
 			return Byte.valueOf(value);
 		}
-		throw new BadImplementationException("This method can only handle: int,long,float,short,boolean,double," + "byte. you have supplied: " + type
-				.getName());
+		throw new BadImplementationException("This method can only handle: int,long,float,short,boolean,double," + "byte. you have supplied: " + type.getName());
 	}
 
 	public static HashMap<Object, Object> getFieldsCrossMappings(Class<?> resourceClass) {
