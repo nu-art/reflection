@@ -53,6 +53,18 @@ public class ReflectiveTools {
 		}
 	}
 
+	public static <ItemType> ItemType newInstance(Class<ItemType> itemType, Class<?> enclosingType, Object instance) {
+		try {
+			Constructor<ItemType> constructor = itemType.getDeclaredConstructor(enclosingType);
+			constructor.setAccessible(true);
+			ItemType item = constructor.newInstance(instance);
+			constructor.setAccessible(false);
+			return item;
+		} catch (Exception e) {
+			throw new ClassInstantiationRuntimeException(itemType, e);
+		}
+	}
+
 	public static List<Class<?>> getAllInterfaces(Class<?> _class) {
 		if (_class == null) {
 			throw new BadImplementationException("");
