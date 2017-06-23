@@ -37,7 +37,8 @@ public class ReflectiveTools {
 	/**
 	 * Creates a new instance of the supplied class type, via the default constructor.
 	 *
-	 * @param itemType The instance type to instantiate.
+	 * @param itemType   The instance type to instantiate.
+	 * @param <ItemType> The class type to instantiate
 	 *
 	 * @return An instance of the supplied item type.
 	 */

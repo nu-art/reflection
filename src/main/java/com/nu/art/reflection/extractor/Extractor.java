@@ -24,7 +24,7 @@ import com.nu.art.core.exceptions.runtime.BadImplementationException;
 import java.lang.reflect.Field;
 
 /**
- * @param <BaseType>
+ * @param <BaseType> DONNO if needed!
  *
  * @author TacB0sS
  */
@@ -58,8 +58,7 @@ public abstract class Extractor<BaseType, InjecteeBaseType> {
 
 	/**
 	 * @param field      The field for which to get the value for.
-	 * @param fieldValue
-	 *
+	 * @param fieldValue The value to set
 	 */
 	protected abstract void setValueForField(Field field, Object fieldValue);
 }

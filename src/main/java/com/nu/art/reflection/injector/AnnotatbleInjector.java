@@ -25,8 +25,6 @@ import java.lang.reflect.Field;
 /**
  * The injectee type that this interface supports.
  *
- * @param <BaseType>
- *
  * @author TacB0sS
  */
 public abstract class AnnotatbleInjector<KeyType extends Annotation, BaseType, InjecteeBaseType>

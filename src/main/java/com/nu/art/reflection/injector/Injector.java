@@ -19,14 +19,12 @@
 
 package com.nu.art.reflection.injector;
 
-import java.lang.reflect.Field;
-
 import com.nu.art.core.exceptions.runtime.BadImplementationException;
+
+import java.lang.reflect.Field;
 
 /**
  * The injectee type that this interface supports.
- *
- * @param <BaseType>
  *
  * @author TacB0sS
  */
