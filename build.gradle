@@ -24,7 +24,7 @@ tasks.withType(JavaCompile) {
 }
 
 if (project.hasProperty("configureUploadJavaArtifact")) {
-    configureUploadJavaArtifact("com.nu-art-software",  "nu-art/${name}")
+    configureUploadJavaArtifact("com.nu-art-software", "nu-art/${name}")
 };
 
 dependencies {
