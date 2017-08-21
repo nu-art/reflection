@@ -1,5 +1,6 @@
 /*
- * The core of the core of all my projects!
+ * The reflection project, is collection of reflection tools I've picked up
+ * along the way, use it wisely!
  *
  * Copyright (C) 2017  Adam van der Kruk aka TacB0sS
  *
