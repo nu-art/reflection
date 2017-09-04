@@ -34,6 +34,11 @@ import java.util.List;
 
 public class ReflectiveTools {
 
+	public static <ItemType> ItemType newInstance(String classFQN)
+			throws ClassNotFoundException {
+		return (ItemType) newInstance(Class.forName(classFQN));
+	}
+
 	/**
 	 * Creates a new instance of the supplied class type, via the default constructor.
 	 *
