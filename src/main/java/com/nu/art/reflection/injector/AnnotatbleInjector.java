@@ -37,14 +37,10 @@ public abstract class AnnotatbleInjector<KeyType extends Annotation, BaseType, I
 		this.annotationType = annotationType;
 	}
 
-	// protected abstract <RealType extends BaseType> RealType getInstance(Class<RealType> realType, KeyType key);
-	//
-	// protected abstract <RealType extends BaseType> RealType[] getArray(Class<RealType> realType, KeyType key);
-
 	@Override
-	protected final Object getValueForField(Field field) {
-		return getValueFromAnnotationAndField(field.getAnnotation(annotationType), field);
+	protected final Object getValueForField(Object instance, Field field) {
+		return getValueFromAnnotationAndField(extractValueFromField(instance, field), field.getAnnotation(annotationType), field);
 	}
 
-	protected abstract Object getValueFromAnnotationAndField(KeyType annotation, Field field);
+	protected abstract Object getValueFromAnnotationAndField(Object instance, KeyType annotation, Field field);
 }

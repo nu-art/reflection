@@ -35,11 +35,30 @@ public abstract class Injector<BaseType, InjecteeBaseType> {
 			boolean accessible = field.isAccessible();
 			if (!accessible)
 				field.setAccessible(true);
+
 			field.set(instance, fieldValue);
+
 			if (!accessible)
 				field.setAccessible(false);
 		} catch (Exception e) {
 			throw new BadImplementationException("Expected value for field: '" + field + "', actual value type: '" + fieldValue.getClass().getName() + "'", e);
+		}
+	}
+
+	protected final Object extractValueFromField(Object instance, Field field) {
+		try {
+			boolean accessible = field.isAccessible();
+			if (!accessible)
+				field.setAccessible(true);
+
+			Object fieldValue = field.get(instance);
+
+			if (!accessible)
+				field.setAccessible(false);
+
+			return fieldValue;
+		} catch (Exception e) {
+			throw new BadImplementationException("Error extracting value from field: " + field, e);
 		}
 	}
 
@@ -49,7 +68,7 @@ public abstract class Injector<BaseType, InjecteeBaseType> {
 	public final <InjecteeType extends InjecteeBaseType> void injectToInstance(InjecteeType instance) {
 		Field[] validFieldsForInjection = extractFieldsFromInstance((Class<? extends InjecteeBaseType>) instance.getClass());
 		for (Field field : validFieldsForInjection) {
-			Object fieldValue = getValueForField(field);
+			Object fieldValue = getValueForField(instance, field);
 			injectInstanceToField(instance, field, fieldValue);
 		}
 	}
@@ -59,5 +78,5 @@ public abstract class Injector<BaseType, InjecteeBaseType> {
 	 *
 	 * @return a value for the field
 	 */
-	protected abstract Object getValueForField(Field field);
+	protected abstract Object getValueForField(Object instance, Field field);
 }
