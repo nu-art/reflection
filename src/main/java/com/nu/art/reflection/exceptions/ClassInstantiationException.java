@@ -47,17 +47,15 @@ public class ClassInstantiationException
 		if (e instanceof IllegalAccessException) {
 			return "Error accessing constructor: " + ciu.getConstructorAsString() + ".\n" + getInvocationAsDetails("  ", parameters);
 		} else if (e instanceof IllegalArgumentException) {
-			return "Wrong parameter/s was supplied to constructor invocation: " + ciu.getConstructorAsString() + ".\n" +
-					getInvocationAsDetails("  ", parameters);
+			return "Wrong parameter/s was supplied to constructor invocation: " + ciu.getConstructorAsString() + ".\n" + getInvocationAsDetails("  ", parameters);
 		} else if (e instanceof InstantiationException) {
-			return "An Exception has occur during the instantiation of the item type: " + ciu.getConstructorAsString() + ".\n" +
-					getInvocationAsDetails("  ", parameters);
+			return "An Exception has occur during the instantiation of the item type: " + ciu
+					.getConstructorAsString() + ".\n" + getInvocationAsDetails("  ", parameters);
 		} else if (e instanceof InvocationTargetException) {
-			return "An Exception has occur during the invocation of the constructor: " + ciu.getConstructorAsString() + ".\n" +
-					getInvocationAsDetails("  ", parameters);
+			return "An Exception has occur during the invocation of the constructor: " + ciu
+					.getConstructorAsString() + ".\n" + getInvocationAsDetails("  ", parameters);
 		} else if (e instanceof WrongParameterType) {
-			return "Wrong parameter/s was supplied for constructor invocation: " + ciu.getConstructorAsString() + ".\n" +
-					getInvocationAsDetails("  ", parameters);
+			return "Wrong parameter/s was supplied for constructor invocation: " + ciu.getConstructorAsString() + ".\n" + getInvocationAsDetails("  ", parameters);
 		}
 		return "Exception while instantiating constructor invocation: " + ciu.getConstructorAsString();
 	}

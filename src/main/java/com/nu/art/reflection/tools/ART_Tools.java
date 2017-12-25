@@ -19,7 +19,6 @@
 
 package com.nu.art.reflection.tools;
 
-
 import com.nu.art.core.exceptions.runtime.BadImplementationException;
 
 import java.lang.annotation.Annotation;
