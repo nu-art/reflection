@@ -46,7 +46,12 @@ public class BidirectionalActionImpl<Type>
 
 	private String actionDescription;
 
-	public BidirectionalActionImpl(Class<Type> type, String actionDescription, String redoMethodName, Object[] redoParameters, String undoMethodName, Object[] undoParameters)
+	public BidirectionalActionImpl(Class<Type> type,
+																 String actionDescription,
+																 String redoMethodName,
+																 Object[] redoParameters,
+																 String undoMethodName,
+																 Object[] undoParameters)
 			throws InternalException {
 		super(type, redoMethodName, redoParameters, undoMethodName, undoParameters);
 		this.actionDescription = actionDescription;

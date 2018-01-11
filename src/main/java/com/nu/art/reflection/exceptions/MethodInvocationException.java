@@ -53,17 +53,13 @@ public class MethodInvocationException
 
 	private static String generateMessage(Method method, Object instance, Object[] parameters, Exception e) {
 		if (e instanceof IllegalAccessException) {
-			return "An Exception has accessing method: " + ReflectiveTools.getMethodAsString(method) + ".\n" + MethodInvocationException
-					.getInvocationAsDetails("  ", instance, parameters);
+			return "An Exception has accessing method: " + ReflectiveTools.getMethodAsString(method) + ".\n" + MethodInvocationException.getInvocationAsDetails("  ", instance, parameters);
 		} else if (e instanceof IllegalArgumentException) {
-			return "Wrong parameter/s was supplied to method invocation: " + ReflectiveTools.getMethodAsString(method) + ".\n" + MethodInvocationException
-					.getInvocationAsDetails("  ", instance, parameters);
+			return "Wrong parameter/s was supplied to method invocation: " + ReflectiveTools.getMethodAsString(method) + ".\n" + MethodInvocationException.getInvocationAsDetails("  ", instance, parameters);
 		} else if (e instanceof InvocationTargetException) {
-			return "An Exception has occur during the invocation of the method: " + ReflectiveTools.getMethodAsString(method) + ".\n" + MethodInvocationException
-					.getInvocationAsDetails("  ", instance, parameters);
+			return "An Exception has occur during the invocation of the method: " + ReflectiveTools.getMethodAsString(method) + ".\n" + MethodInvocationException.getInvocationAsDetails("  ", instance, parameters);
 		} else if (e instanceof WrongParameterType) {
-			return "Wrong parameter/s was supplied to method invocation: " + ReflectiveTools.getMethodAsString(method) + ".\n" + MethodInvocationException
-					.getInvocationAsDetails("  ", instance, parameters);
+			return "Wrong parameter/s was supplied to method invocation: " + ReflectiveTools.getMethodAsString(method) + ".\n" + MethodInvocationException.getInvocationAsDetails("  ", instance, parameters);
 		}
 		return e.getMessage();
 	}

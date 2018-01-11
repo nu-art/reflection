@@ -111,8 +111,8 @@ public final class ClassInstantiationUtility<InstanceType> {
 				return (Constructor<InstanceType>) constructor2;
 			}
 		}
-		throw new com.nu.art.reflection.exceptions.ConstructorNotFoundException("There was no match for Constructor: \n  " + _class
-				.getSimpleName() + "(" + ReflectiveTools.parseParametersType(parameterTypes) + "); \n  In the specified class object: " + _class.getName());
+		throw new com.nu.art.reflection.exceptions.ConstructorNotFoundException("There was no match for Constructor: \n  " + _class.getSimpleName() + "(" + ReflectiveTools
+				.parseParametersType(parameterTypes) + "); \n  In the specified class object: " + _class.getName());
 	}
 
 	public String getConstructorAsString() {

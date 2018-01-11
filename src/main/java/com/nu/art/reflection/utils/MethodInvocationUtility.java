@@ -109,8 +109,8 @@ public class MethodInvocationUtility<InstanceType> {
 				return method;
 			}
 		}
-		throw new MethodNotFoundException("There was no match for method: \n  " + methodName + "(" + ReflectiveTools
-				.parseParametersType(parameterTypes) + "); \n  In the specified class object: " + _class.getName());
+		throw new MethodNotFoundException("There was no match for method: \n  " + methodName + "(" + ReflectiveTools.parseParametersType(parameterTypes) + "); \n  In the specified class object: " + _class
+				.getName());
 	}
 
 	public String getMethodName() {
