@@ -38,7 +38,7 @@ public class MethodInvocationUtility<InstanceType> {
 	private Method method;
 
 	public MethodInvocationUtility(Class<InstanceType> instanceType, String methodName, Class<?>... parameterTypes)
-			throws MethodNotFoundException {
+		throws MethodNotFoundException {
 		this.parameterTypes = parameterTypes;
 		method = findAMethod(instanceType, methodName, parameterTypes);
 		method.setAccessible(true);
@@ -51,7 +51,7 @@ public class MethodInvocationUtility<InstanceType> {
 	}
 
 	private boolean checkParameters(Object... parameters)
-			throws com.nu.art.reflection.exceptions.WrongParameterType {
+		throws com.nu.art.reflection.exceptions.WrongParameterType {
 		if (parameters.length != parameterTypes.length) {
 			return false;
 		}
@@ -99,7 +99,7 @@ public class MethodInvocationUtility<InstanceType> {
 	 * @throws MethodNotFoundException if a method with the supplied specifications was not found.
 	 */
 	private Method findAMethod(Class<InstanceType> _class, String methodName, Class<?>[] parameterTypes)
-			throws MethodNotFoundException {
+		throws MethodNotFoundException {
 		Method[] methods = _class.getDeclaredMethods();
 		for (Method method : methods) {
 			if (!method.getName().equals(methodName)) {
@@ -110,7 +110,7 @@ public class MethodInvocationUtility<InstanceType> {
 			}
 		}
 		throw new MethodNotFoundException("There was no match for method: \n  " + methodName + "(" + ReflectiveTools.parseParametersType(parameterTypes) + "); \n  In the specified class object: " + _class
-				.getName());
+			.getName());
 	}
 
 	public String getMethodName() {
@@ -118,7 +118,7 @@ public class MethodInvocationUtility<InstanceType> {
 	}
 
 	public final Object invokeMethod(InstanceType instance, Object... parameters)
-			throws MethodInvocationException {
+		throws MethodInvocationException {
 		try {
 			checkParameters(parameters);
 			return method.invoke(instance, parameters);

@@ -24,7 +24,7 @@ import com.nu.art.reflection.tools.ReflectiveTools;
 import java.util.HashMap;
 
 public class GenericMap<Type>
-		extends HashMap<Class<? extends Type>, Type> {
+	extends HashMap<Class<? extends Type>, Type> {
 
 	public final Type getOrCreate(Class<? extends Type> instanceType) {
 		Type instance = get(instanceType);

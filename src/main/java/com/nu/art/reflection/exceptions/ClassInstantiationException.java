@@ -25,7 +25,7 @@ import com.nu.art.core.exceptions.InternalException;
 import com.nu.art.reflection.utils.ClassInstantiationUtility;
 
 public class ClassInstantiationException
-		extends InternalException {
+	extends InternalException {
 
 	private static final long serialVersionUID = 8007508391207595997L;
 

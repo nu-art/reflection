@@ -31,10 +31,10 @@ import java.util.Vector;
 public class ART_Tools {
 
 	public static <Type> Field[] getFieldsWithAnnotationAndTypeFromClassHierarchy(Class<Type> child,
-																																								Class<? super Type> topParent,
-																																								Class<? extends Annotation> classAnnotationType,
-																																								Class<? extends Annotation> fieldAnnotationType,
-																																								Class<?>... fieldTypes) {
+	                                                                              Class<? super Type> topParent,
+	                                                                              Class<? extends Annotation> classAnnotationType,
+	                                                                              Class<? extends Annotation> fieldAnnotationType,
+	                                                                              Class<?>... fieldTypes) {
 		Class<?>[] hierarchy = getClassHierarchy(child, topParent, classAnnotationType);
 		return getAllFieldsWithAnnotationAndType(hierarchy, fieldTypes, fieldAnnotationType);
 	}

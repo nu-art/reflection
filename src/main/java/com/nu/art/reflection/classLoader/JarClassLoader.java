@@ -25,7 +25,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class JarClassLoader
-		extends AbsClassLoader<JarFile> {
+	extends AbsClassLoader<JarFile> {
 
 	@Override
 	protected InputStream getResourceAsStream(JarFile oldJarFile, String resourceName) {

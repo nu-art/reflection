@@ -28,7 +28,7 @@ import java.lang.reflect.Field;
  * @author TacB0sS
  */
 public abstract class AnnotatbleInjector<KeyType extends Annotation, BaseType, InjecteeBaseType>
-		extends Injector<BaseType, InjecteeBaseType> {
+	extends Injector<BaseType, InjecteeBaseType> {
 
 	protected final Class<KeyType> annotationType;
 

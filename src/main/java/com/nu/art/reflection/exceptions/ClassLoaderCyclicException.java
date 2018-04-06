@@ -22,7 +22,7 @@ package com.nu.art.reflection.exceptions;
 import com.nu.art.core.exceptions.RuntimeInternalException;
 
 public class ClassLoaderCyclicException
-		extends RuntimeInternalException {
+	extends RuntimeInternalException {
 
 	private static final long serialVersionUID = 3641520113237366281L;
 

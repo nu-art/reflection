@@ -26,8 +26,8 @@ import java.io.Serializable;
 import java.util.Vector;
 
 public class BidirectionalActionImpl<Type>
-		extends BidirectionalAction<Type>
-		implements Serializable {
+	extends BidirectionalAction<Type>
+	implements Serializable {
 
 	public enum BidirectionalState {
 		Before,
@@ -47,12 +47,12 @@ public class BidirectionalActionImpl<Type>
 	private String actionDescription;
 
 	public BidirectionalActionImpl(Class<Type> type,
-																 String actionDescription,
-																 String redoMethodName,
-																 Object[] redoParameters,
-																 String undoMethodName,
-																 Object[] undoParameters)
-			throws InternalException {
+	                               String actionDescription,
+	                               String redoMethodName,
+	                               Object[] redoParameters,
+	                               String undoMethodName,
+	                               Object[] undoParameters)
+		throws InternalException {
 		super(type, redoMethodName, redoParameters, undoMethodName, undoParameters);
 		this.actionDescription = actionDescription;
 	}
@@ -62,13 +62,13 @@ public class BidirectionalActionImpl<Type>
 	}
 
 	public BidirectionalActionImpl(Class<Type> type, String actionDescription, String forwardMethod, String backwardMethod)
-			throws InternalException {
+		throws InternalException {
 		super(type, forwardMethod, backwardMethod);
 		this.actionDescription = actionDescription;
 	}
 
 	public void addItem(Type item)
-			throws InternalException {
+		throws InternalException {
 		if (item == null) {
 			return;
 		}
@@ -83,7 +83,7 @@ public class BidirectionalActionImpl<Type>
 	}
 
 	private void backward(int from, int until, Object[] parameters)
-			throws InternalException {
+		throws InternalException {
 		MultiExceptions me = new MultiExceptions("Un-Install Failed");
 		for (int i = from; i >= until; i--) {
 			try {
@@ -96,7 +96,7 @@ public class BidirectionalActionImpl<Type>
 	}
 
 	public final void backward(Object... parameters)
-			throws InternalException {
+		throws InternalException {
 		if (state == BidirectionalState.Before) {
 			return;
 		}
@@ -105,7 +105,7 @@ public class BidirectionalActionImpl<Type>
 	}
 
 	public final void forward(Object... parameters)
-			throws InternalException {
+		throws InternalException {
 		if (state == BidirectionalState.After) {
 			return;
 		}
@@ -134,7 +134,7 @@ public class BidirectionalActionImpl<Type>
 	}
 
 	public void removeItem(Type installable)
-			throws InternalException {
+		throws InternalException {
 		if (state == BidirectionalState.After) {
 			int index = items.indexOf(installable);
 			try {

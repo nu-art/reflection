@@ -22,7 +22,7 @@ package com.nu.art.reflection.exceptions;
 import com.nu.art.core.exceptions.InternalException;
 
 public class MethodNotFoundException
-		extends InternalException {
+	extends InternalException {
 
 	private static final long serialVersionUID = -1124711794032743053L;
 

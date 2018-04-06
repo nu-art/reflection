@@ -28,7 +28,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public final class ClassesLoader
-		extends ClassLoader {
+	extends ClassLoader {
 
 	protected static boolean debug = false;
 
@@ -80,7 +80,7 @@ public final class ClassesLoader
 
 	@Override
 	public final Class<?> loadClass(String className)
-			throws ClassNotFoundException {
+		throws ClassNotFoundException {
 		Class<?> _class;
 		try {
 			_class = getParent().loadClass(className);

@@ -22,7 +22,7 @@ package com.nu.art.reflection.exceptions;
 import com.nu.art.core.exceptions.InternalException;
 
 public class ConstructorNotFoundException
-		extends InternalException {
+	extends InternalException {
 
 	private static final long serialVersionUID = -4559517211706453843L;
 

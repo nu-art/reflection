@@ -26,7 +26,7 @@ import com.nu.art.core.exceptions.InternalException;
 import com.nu.art.reflection.tools.ReflectiveTools;
 
 public class MethodInvocationException
-		extends InternalException {
+	extends InternalException {
 
 	private static final long serialVersionUID = 1346980994902830057L;
 

@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 public abstract class AbsClassLoader<HolderType>
-		extends ClassLoader {
+	extends ClassLoader {
 
 	protected static boolean debug = false;
 
@@ -58,7 +58,7 @@ public abstract class AbsClassLoader<HolderType>
 
 	@Override
 	public final Class<?> loadClass(String className)
-			throws ClassNotFoundException {
+		throws ClassNotFoundException {
 		return manager.loadClass(className);
 	}
 
@@ -99,7 +99,7 @@ public abstract class AbsClassLoader<HolderType>
 	}
 
 	protected Class<?> loadClassFromStream(InputStream inputStream)
-			throws IOException {
+		throws IOException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(inputStream.available());
 		BufferedOutputStream out = new BufferedOutputStream(bos, 1024);
 		byte[] buffer = new byte[1024];

@@ -28,7 +28,7 @@ import java.lang.reflect.Field;
  * @author TacB0sS
  */
 public abstract class AnnotatbleExtractor<KeyType extends Annotation, BaseType, InjecteeBaseType>
-		extends Extractor<BaseType, InjecteeBaseType> {
+	extends Extractor<BaseType, InjecteeBaseType> {
 
 	protected final Class<KeyType> annotationType;
 

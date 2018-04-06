@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class DirectoryClassLoader
-		extends AbsClassLoader<File> {
+	extends AbsClassLoader<File> {
 
 	@Override
 	protected InputStream getResourceAsStream(File dir, String resourceName) {

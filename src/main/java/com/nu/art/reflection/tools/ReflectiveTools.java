@@ -35,7 +35,7 @@ import java.util.List;
 public class ReflectiveTools {
 
 	public static <ItemType> ItemType newInstance(String classFQN)
-			throws ClassNotFoundException {
+		throws ClassNotFoundException {
 		return (ItemType) newInstance(Class.forName(classFQN));
 	}
 
