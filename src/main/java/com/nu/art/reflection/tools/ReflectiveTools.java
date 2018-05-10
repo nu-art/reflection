@@ -24,6 +24,7 @@ import com.nu.art.core.exceptions.runtime.ClassInstantiationRuntimeException;
 import com.nu.art.core.exceptions.runtime.MUST_NeverHappenedException;
 import com.nu.art.core.exceptions.runtime.ThisShouldNotHappenedException;
 import com.nu.art.core.interfaces.Condition;
+import com.nu.art.core.tools.ArrayTools;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -215,6 +216,27 @@ public class ReflectiveTools {
 			}
 		}
 		return enumValues;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <EnumType extends Enum<?>> EnumType[] getEnumFromValue(Class<EnumType> type, String... values) {
+		EnumType[] enumValues = getEnumValues(type);
+		EnumType[] toRet = (EnumType[]) ArrayTools.getGenericArrayType(type, values.length);
+
+		for (int i = 0; i < values.length; i++) {
+			String enumAsString = values[i];
+
+			for (EnumType enumType : enumValues) {
+				if (enumType.name().equalsIgnoreCase(enumAsString)) {
+					toRet[i] = enumType;
+				}
+			}
+
+			if (toRet[i] == null)
+				throw new EnumConstantNotPresentException(type, enumAsString);
+		}
+
+		return toRet;
 	}
 
 	public static <EnumType extends Enum<?>> EnumType getEnumFromValue(Class<EnumType> type, String value) {
