@@ -22,11 +22,11 @@ package com.nu.art.reflection.exceptions;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.nu.art.core.exceptions.InternalException;
+
 import com.nu.art.reflection.tools.ReflectiveTools;
 
 public class MethodInvocationException
-	extends InternalException {
+	extends Exception {
 
 	private static final long serialVersionUID = 1346980994902830057L;
 

@@ -19,9 +19,6 @@
 
 package com.nu.art.reflection.tools;
 
-import com.nu.art.core.exceptions.InternalException;
-import com.nu.art.core.exceptions.MultiExceptions;
-
 import java.io.Serializable;
 import java.util.Vector;
 
@@ -52,7 +49,7 @@ public class BidirectionalActionImpl<Type>
 	                               Object[] redoParameters,
 	                               String undoMethodName,
 	                               Object[] undoParameters)
-		throws InternalException {
+		throws Exception {
 		super(type, redoMethodName, redoParameters, undoMethodName, undoParameters);
 		this.actionDescription = actionDescription;
 	}
@@ -62,13 +59,13 @@ public class BidirectionalActionImpl<Type>
 	}
 
 	public BidirectionalActionImpl(Class<Type> type, String actionDescription, String forwardMethod, String backwardMethod)
-		throws InternalException {
+		throws Exception {
 		super(type, forwardMethod, backwardMethod);
 		this.actionDescription = actionDescription;
 	}
 
 	public void addItem(Type item)
-		throws InternalException {
+		throws Exception {
 		if (item == null) {
 			return;
 		}
@@ -76,27 +73,21 @@ public class BidirectionalActionImpl<Type>
 		if (state == BidirectionalState.After) {
 			try {
 				forwardInvocation.invokeMethod(item);
-			} catch (InternalException e) {
+			} catch (Exception e) {
 				backwardInvocation.invokeMethod(item);
 			}
 		}
 	}
 
 	private void backward(int from, int until, Object[] parameters)
-		throws InternalException {
-		MultiExceptions me = new MultiExceptions("Un-Install Failed");
+		throws Exception {
 		for (int i = from; i >= until; i--) {
-			try {
-				backwardInvocation.invokeMethod(items.get(i), parameters);
-			} catch (Exception e) {
-				me.addException(e);
-			}
+			backwardInvocation.invokeMethod(items.get(i), parameters);
 		}
-		me.process();
 	}
 
 	public final void backward(Object... parameters)
-		throws InternalException {
+		throws Exception {
 		if (state == BidirectionalState.Before) {
 			return;
 		}
@@ -105,7 +96,7 @@ public class BidirectionalActionImpl<Type>
 	}
 
 	public final void forward(Object... parameters)
-		throws InternalException {
+		throws Exception {
 		if (state == BidirectionalState.After) {
 			return;
 		}
@@ -116,16 +107,10 @@ public class BidirectionalActionImpl<Type>
 			}
 			state = BidirectionalState.After;
 		} catch (Exception e) {
-			MultiExceptions me = new MultiExceptions("Item: " + items.get(i) + " Action: " + actionDescription + " has Failed");
-			me.addException(e);
-			try {
-				if (reverseOnFailure) {
-					backward(i, 0);
-				}
-			} catch (Exception e1) {
-				me.addException(e);
+			if (reverseOnFailure) {
+				backward(i, 0);
 			}
-			me.process();
+			throw e;
 		}
 	}
 
@@ -134,12 +119,12 @@ public class BidirectionalActionImpl<Type>
 	}
 
 	public void removeItem(Type installable)
-		throws InternalException {
+		throws Exception {
 		if (state == BidirectionalState.After) {
 			int index = items.indexOf(installable);
 			try {
 				backward(items.size() - 1, index);
-			} catch (InternalException e) {
+			} catch (Exception e) {
 				items.remove(installable);
 				throw e;
 			}

@@ -19,13 +19,12 @@
 
 package com.nu.art.reflection.exceptions;
 
-import java.lang.reflect.InvocationTargetException;
-
-import com.nu.art.core.exceptions.InternalException;
 import com.nu.art.reflection.utils.ClassInstantiationUtility;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class ClassInstantiationException
-	extends InternalException {
+	extends Exception {
 
 	private static final long serialVersionUID = 8007508391207595997L;
 

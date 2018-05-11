@@ -21,8 +21,8 @@ package com.nu.art.reflection.tools;
 
 import com.nu.art.core.exceptions.runtime.BadImplementationException;
 import com.nu.art.core.exceptions.runtime.ClassInstantiationRuntimeException;
-import com.nu.art.core.exceptions.runtime.MUST_NeverHappenedException;
-import com.nu.art.core.exceptions.runtime.ThisShouldNotHappenedException;
+import com.nu.art.core.exceptions.runtime.MUST_NeverHappenException;
+import com.nu.art.core.exceptions.runtime.ThisShouldNotHappenException;
 import com.nu.art.core.interfaces.Condition;
 import com.nu.art.core.tools.ArrayTools;
 
@@ -199,7 +199,7 @@ public class ReflectiveTools {
 		try {
 			enumGetValues = type.getDeclaredMethod("values");
 		} catch (Exception e) {
-			throw new MUST_NeverHappenedException("MUST NEVER HAPPENED: no values method for Enum!", e);
+			throw new MUST_NeverHappenException("MUST NEVER HAPPENED: no values method for Enum!", e);
 		}
 		boolean wasAccessible = enumGetValues.isAccessible();
 		if (!wasAccessible) {
@@ -209,7 +209,7 @@ public class ReflectiveTools {
 		try {
 			enumValues = (EnumType[]) enumGetValues.invoke(null);
 		} catch (Exception e) {
-			throw new MUST_NeverHappenedException("MUST NEVER HAPPENED: no values method invocation error!", e);
+			throw new MUST_NeverHappenException("MUST NEVER HAPPENED: no values method invocation error!", e);
 		} finally {
 			if (!wasAccessible) {
 				enumGetValues.setAccessible(false);
@@ -397,7 +397,7 @@ public class ReflectiveTools {
 				resourceMap.put(value, name);
 				resourceMap.put(name, value);
 			} catch (Exception e) {
-				throw new ThisShouldNotHappenedException("This should not happend", e);
+				throw new ThisShouldNotHappenException("This should not happend", e);
 			}
 		}
 		return resourceMap;

@@ -19,10 +19,8 @@
 
 package com.nu.art.reflection.exceptions;
 
-import com.nu.art.core.exceptions.InternalException;
-
 public class WrongParameterType
-	extends InternalException {
+	extends Exception {
 
 	private static final long serialVersionUID = -3927746313486527434L;
 

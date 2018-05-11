@@ -19,7 +19,6 @@
 
 package com.nu.art.reflection.tools;
 
-import com.nu.art.core.exceptions.InternalException;
 import com.nu.art.reflection.utils.MethodInvocationUtility;
 
 public abstract class BidirectionalAction<Type> {
@@ -29,13 +28,13 @@ public abstract class BidirectionalAction<Type> {
 	protected MethodInvocationUtility<Type> backwardInvocation;
 
 	public BidirectionalAction(Class<Type> type, String redoMethodName, Object[] redoParameters, String undoMethodName, Object[] undoParameters)
-		throws InternalException {
+		throws Exception {
 		forwardInvocation = new MethodInvocationUtility<>(type, redoMethodName, ReflectiveTools.getInstancesTypes(redoParameters));
 		backwardInvocation = new MethodInvocationUtility<>(type, undoMethodName, ReflectiveTools.getInstancesTypes(undoParameters));
 	}
 
 	public BidirectionalAction(Class<Type> type, String forwardMethod, String backwardMethod)
-		throws InternalException {
+		throws Exception {
 		this(type, forwardMethod, new Object[0], backwardMethod, new Object[0]);
 	}
 }
