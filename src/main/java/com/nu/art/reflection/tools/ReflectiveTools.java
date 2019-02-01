@@ -33,8 +33,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings( {
+	                   "WeakerAccess",
+	                   "unused"
+                   })
 public class ReflectiveTools {
 
+	@SuppressWarnings("unchecked")
 	public static <ItemType> ItemType newInstance(String classFQN)
 		throws ClassNotFoundException {
 		return (ItemType) newInstance(Class.forName(classFQN));
@@ -144,14 +149,14 @@ public class ReflectiveTools {
 	}
 
 	public static String parseInstancesParameterType(Object[] parameters) {
-		String toRet = "";
+		StringBuilder toRet = new StringBuilder();
 		for (int i = 0; i < parameters.length; i++) {
-			toRet += parameters[i].getClass().getSimpleName();
+			toRet.append(parameters[i].getClass().getSimpleName());
 			if (i != parameters.length - 1) {
-				toRet += ", ";
+				toRet.append(", ");
 			}
 		}
-		return toRet;
+		return toRet.toString();
 	}
 
 	public static String parseParametersType(Class<?>[] parameters) {
@@ -168,18 +173,18 @@ public class ReflectiveTools {
 	}
 
 	public static String parseParametersType(Class<?>[] parameterTypes, boolean fullName) {
-		String toRet = "";
+		StringBuilder toRet = new StringBuilder();
 		for (int i = 0; i < parameterTypes.length; i++) {
 			if (fullName) {
-				toRet += parameterTypes[i].getName();
+				toRet.append(parameterTypes[i].getName());
 			} else {
-				toRet += parameterTypes[i].getSimpleName();
+				toRet.append(parameterTypes[i].getSimpleName());
 			}
 			if (i != parameterTypes.length - 1) {
-				toRet += ", ";
+				toRet.append(", ");
 			}
 		}
-		return toRet;
+		return toRet.toString();
 	}
 
 	public static <EnumType extends Enum<?>> EnumType findMatchingEnumItem(Class<EnumType> type, Condition<EnumType> condition) {
@@ -277,7 +282,7 @@ public class ReflectiveTools {
 		return type;
 	}
 
-	public static Class<?> getUnboxedType(Class<?> type) {
+	public static Class<?> getunboxedtype(Class<?> type) {
 		if (type == Integer.class || type == int.class) {
 			return int.class;
 		}
