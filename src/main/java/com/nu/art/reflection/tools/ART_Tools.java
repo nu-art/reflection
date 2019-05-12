@@ -20,14 +20,21 @@
 package com.nu.art.reflection.tools;
 
 import com.nu.art.core.exceptions.runtime.BadImplementationException;
+import com.nu.art.core.interfaces.Condition;
+import com.nu.art.core.tools.ArrayTools;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Vector;
 
-@SuppressWarnings("unused")
+import static com.nu.art.core.interfaces.Condition.Condition_AlwaysTrue;
+
+@SuppressWarnings( {
+	                   "unused",
+	                   "WeakerAccess"
+                   })
 public class ART_Tools {
 
 	public static <Type> Field[] getFieldsWithAnnotationAndTypeFromClassHierarchy(Class<Type> child,
@@ -39,68 +46,114 @@ public class ART_Tools {
 		return getAllFieldsWithAnnotationAndType(hierarchy, fieldTypes, fieldAnnotationType);
 	}
 
-	public static <Type> Class<?>[] getClassHierarchy(Class<Type> child, Class<? super Type> topParent, Class<? extends Annotation> annotationType) {
-		if (!topParent.isAssignableFrom(child)) {
-			throw new BadImplementationException("The class type: '" + topParent.getName() + "' is not a superclass of: '" + child.getName() + "'");
-		}
-		Vector<Class<?>> typeHierarchy = new Vector<>();
-		Class<?> _class = child;
+	public static <Type> Class<?>[] getClassHierarchy(Class<Type> _class) {
+		return getClassHierarchy(_class, Object.class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <Type> Class<?>[] getClassHierarchy(Class<Type> _class, Class<? super Type> superClass) {
+		return getClassHierarchy(_class, superClass, (Condition<Class<?>>) Condition_AlwaysTrue);
+	}
+
+	public static <Type> Class<?>[] getClassHierarchy(Class<Type> _class, Class<? super Type> superClass, final Class<? extends Annotation> annotationType) {
+		return getClassHierarchy(_class, superClass, new Condition<Class<?>>() {
+			@Override
+			public boolean checkCondition(Class<?> _class) {
+				if (annotationType == null)
+					return true;
+
+				return _class.getAnnotation(annotationType) != null;
+			}
+		});
+	}
+
+	public static <Type> Class<?>[] getClassHierarchy(Class<Type> _class, Class<? super Type> superClass, Condition<Class<?>> filter) {
+		if (!superClass.isAssignableFrom(_class))
+			throw new BadImplementationException("The class type: '" + superClass.getName() + "' is not a superclass of: '" + _class.getName() + "'");
+
+		ArrayList<Class<?>> typeHierarchy = new ArrayList<>();
+		Class<?> __class = _class;
 
 		while (true) {
-			if (annotationType != null) {
-				Annotation tempTypeAnnotation = _class.getAnnotation(annotationType);
-				if (tempTypeAnnotation != null)
-					typeHierarchy.insertElementAt(_class, 0);
-			} else
-				typeHierarchy.insertElementAt(_class, 0);
+			if (!filter.checkCondition(__class))
+				continue;
 
-			_class = _class.getSuperclass();
-			if (_class == topParent)
+			typeHierarchy.add(0, __class);
+
+			__class = __class.getSuperclass();
+			if (__class == superClass)
 				break;
 		}
 
-		return typeHierarchy.toArray(new Class<?>[typeHierarchy.size()]);
+		return ArrayTools.asArray(typeHierarchy, Class.class);
 	}
 
+	public static Field[] getAllFieldsFromClasses(Class<?> _class) {
+		return getAllFieldsFromClasses(new Class[]{_class});
+	}
+
+	public static <T> Field[] getAllFieldsFromClasses(Class<?> _class, Class<?> superclass) {
+		return getAllFieldsFromClasses(new Class[]{_class}, superclass);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Field[] getAllFieldsInHierarchy(Class<?> _class) {
+		return getAllFieldsInHierarchy(_class, (Condition<Field>) Condition_AlwaysTrue);
+	}
+
+	public static Field[] getAllFieldsInHierarchy(Class<?> _class, Condition<Field> filter) {
+		Class<?>[] classHierarchy = getClassHierarchy(_class, Object.class);
+		return getAllFieldsFromClasses(classHierarchy, filter);
+	}
+
+	@SuppressWarnings("unchecked")
 	public static Field[] getAllFieldsFromClasses(Class<?>[] classes) {
-		Vector<Field> fieldList = new Vector<>();
+		return getAllFieldsFromClasses(classes, (Condition<Field>) Condition_AlwaysTrue);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Field[] getAllFieldsFromClasses(Class<?>[] classes, Class<?> superclass) {
+		return getAllFieldsFromClasses(classes, (Condition<Field>) Condition_AlwaysTrue);
+	}
+
+	public static Field[] getAllFieldsFromClasses(Class<?>[] classes, Condition<Field> filter) {
+		ArrayList<Field> fieldList = new ArrayList<>();
 		for (Class<?> _class : classes) {
 			Field[] fields = _class.getDeclaredFields();
-			Collections.addAll(fieldList, fields);
+			for (Field field : fields) {
+				if (!filter.checkCondition(field))
+					continue;
+
+				fieldList.add(field);
+			}
 		}
 
-		return fieldList.toArray(new Field[fieldList.size()]);
-	}
-
-	public static Field[] getAllFieldsWithAnnotationAndType(Class<?>[] classes, Class<?>[] fieldTypes, Class<? extends Annotation> annotationType) {
-		Vector<Field> fieldList = new Vector<>();
-		for (Class<?> _class : classes) {
-			Field[] fields = getAllFieldsWithAnnotationAndType(_class, fieldTypes, annotationType);
-			Collections.addAll(fieldList, fields);
-		}
-		return fieldList.toArray(new Field[fieldList.size()]);
+		return ArrayTools.asArray(fieldList, Field.class);
 	}
 
 	public static Field[] getAllFieldsWithAnnotationAndType(Class<?> _class, Class<?>[] fieldTypes, Class<? extends Annotation> annotationType) {
-		Field[] fields;
-		fields = _class.getDeclaredFields();
-		Vector<Field> fieldList = new Vector<>();
-		boolean match;
-		for (Field field : fields) {
-			match = false;
-			for (Class<?> fieldType : fieldTypes) {
-				if (fieldType.isAssignableFrom(field.getType())) {
-					match = true;
-					break;
-				}
-			}
-			if (!match && fieldTypes.length > 0)
-				continue;
+		return getAllFieldsWithAnnotationAndType(new Class[]{_class}, fieldTypes, annotationType);
+	}
 
-			if (annotationType == null || field.getAnnotation(annotationType) != null)
-				fieldList.add(field);
-		}
-		return fieldList.toArray(new Field[fieldList.size()]);
+	public static Field[] getAllFieldsWithAnnotationAndType(Class<?>[] classes, final Class<?>[] fieldTypes, final Class<? extends Annotation> annotationType) {
+		return getAllFieldsFromClasses(classes, new Condition<Field>() {
+			@Override
+			public boolean checkCondition(Field field) {
+				boolean match = false;
+
+				for (Class<?> fieldType : fieldTypes) {
+					if (fieldType.isAssignableFrom(field.getType())) {
+						match = true;
+						break;
+					}
+				}
+
+				if (!match && fieldTypes.length > 0)
+					return false;
+
+				return annotationType == null || field.getAnnotation(annotationType) != null;
+			}
+		});
 	}
 
 	@SafeVarargs
@@ -120,7 +173,8 @@ public class ART_Tools {
 				break;
 			}
 		}
-		return fieldList.toArray(new Field[fieldList.size()]);
+
+		return ArrayTools.asArray(fieldList, Field.class);
 	}
 
 	public static Field getFirstFieldsWithAnnotation(Field[] fields, Class<? extends Annotation> annotationType) {
@@ -138,6 +192,7 @@ public class ART_Tools {
 			if (method.getAnnotation(annotationType) != null)
 				methodList.add(method);
 		}
-		return methodList.toArray(new Method[methodList.size()]);
+
+		return ArrayTools.asArray(methodList, Method.class);
 	}
 }
