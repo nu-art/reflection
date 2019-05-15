@@ -21,6 +21,7 @@ package com.nu.art.reflection.tools;
 
 import com.nu.art.core.exceptions.runtime.BadImplementationException;
 import com.nu.art.core.exceptions.runtime.ClassInstantiationRuntimeException;
+import com.nu.art.core.exceptions.runtime.ImplementationMissingException;
 import com.nu.art.core.exceptions.runtime.MUST_NeverHappenException;
 import com.nu.art.core.exceptions.runtime.ThisShouldNotHappenException;
 import com.nu.art.core.interfaces.Condition;
@@ -29,6 +30,7 @@ import com.nu.art.core.tools.ArrayTools;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +40,13 @@ import java.util.List;
 	                   "unused"
                    })
 public class ReflectiveTools {
+
+	public static Object newInstance(Type type) {
+		if (!(type instanceof Class))
+			throw new ImplementationMissingException("Need to create an instance from Type");
+
+		return newInstance((Class) type);
+	}
 
 	@SuppressWarnings("unchecked")
 	public static <ItemType> ItemType newInstance(String classFQN)
