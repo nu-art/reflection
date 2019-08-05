@@ -19,8 +19,6 @@
 
 package com.nu.art.reflection.exceptions;
 
-
-
 public class MethodNotFoundException
 	extends Exception {
 
